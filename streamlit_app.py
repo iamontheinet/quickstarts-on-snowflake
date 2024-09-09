@@ -42,13 +42,7 @@ st.markdown("""
         div[data-testid='stExpanderDetails'] p {
             color: #ffffff;
         }
-        div[data-testid="column"] {
-            width: fit-content !important;
-            flex: unset;
-        }
-        div[data-testid="column"] * {
-            width: fit-content !important;
-        }    </style>
+    </style>
 """, unsafe_allow_html=True)
 
 @st.cache_data(show_spinner=False)
@@ -85,7 +79,7 @@ def get_qs_md_files(test_mode=True):
     print("done processing .md files!")
     return qs_md_files
 
-def display_qs_as_cards():
+def display_qs_as_cards(test_mode):
     print("displaying qs guides...")
     col1, col2, col3 = st.columns(3, gap='small')
     p_container = st.container()
@@ -94,7 +88,7 @@ def display_qs_as_cards():
     skipped_items = []
     rawdir  = 'https://raw.githubusercontent.com/Snowflake-Labs/sfquickstarts/master/'
  
-    qs_md_files = get_qs_md_files(test_mode=False)
+    qs_md_files = get_qs_md_files(test_mode)
     for qs_md_file in qs_md_files:
         try:
             response = requests.get(rawdir+qs_md_file)
@@ -157,15 +151,17 @@ def display_qs_as_cards():
 
 with st.container():
     st.header(f"Getting Started with Snowflake")
-    col1,col2,col3 = st.columns([1,1,1])
-    with col1:
-        st.link_button("Snowflake QuickStarts on GitHub", "https://github.com/Snowflake-Labs/sfquickstarts") 
-    with col2:
-        st.link_button("Virtual Hands-On Labs", "https://www.snowflake.com/virtual-hands-on-lab")
-    with col3:
-        st.link_button("Virtual Hands-On Labs", "https://www.snowflake.com/virtual-hands-on-lab")
+    # col1,_ =  st.columns([.90,.10])
+    # with col1:
+    st.write(f"""
+                <a href='https://github.com/Snowflake-Labs/sfquickstarts' target='_blank'>Snowflake QuickStarts on GitHub</a>
+                |
+                <a href='https://www.snowflake.com/virtual-hands-on-lab' target='_blank'>Virtual Hands-On Labs</a> 
+                |
+                <a href='https://signup.snowflake.com/?utm_cta=quickstarts_' target='_blank'>Snowflake Free Trial</a>
+                """,unsafe_allow_html=True)
 
     st.caption(f"App developed by [Dash](https://www.linkedin.com/in/dash-desai/)")
     st.markdown("___")
 
-display_qs_as_cards()
+display_qs_as_cards(test_mode=False)
