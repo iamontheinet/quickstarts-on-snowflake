@@ -180,7 +180,7 @@ with st.container():
     if search_qs:
         display_cards(search_qs)
     else:
-        display_qs_as_cards(test_mode=True)
+        display_qs_as_cards(test_mode=False)
 
     st.markdown("___")
     st.caption(f"App developed by [Dash](https://www.linkedin.com/in/dash-desai/)")
