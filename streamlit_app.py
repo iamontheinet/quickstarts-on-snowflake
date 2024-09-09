@@ -136,7 +136,7 @@ def display_cards(search_qs=''):
         col_index = 0
         i = 1
         for k in qs_cards.keys():
-            if (search_qs == '') or (search_qs in k):
+            if (search_qs == '') or (search_qs in k or search_qs in qs_cards[k]['authors']):
                 with p_container:
                     col = col1 if col_index == 0 else col2 if col_index == 1 else col3 
 
@@ -180,7 +180,7 @@ with st.container():
     if search_qs:
         display_cards(search_qs)
     else:
-        display_qs_as_cards()
+        display_qs_as_cards(test_mode=True)
 
     st.markdown("___")
     st.caption(f"App developed by [Dash](https://www.linkedin.com/in/dash-desai/)")
