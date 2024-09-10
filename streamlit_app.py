@@ -176,7 +176,7 @@ with st.container():
     else:
         qs_cards = st.session_state['qs_cards']
 
-    search_qs = st.text_input("Search")
+    search_qs = st.text_input("Search by title or author(s)")
     if search_qs:
         display_cards(search_qs)
     else:
