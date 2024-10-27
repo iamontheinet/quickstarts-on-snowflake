@@ -51,6 +51,9 @@ st.markdown("""
         input {
             background-color: #115675 !important;
         }
+        .st-b6 {
+            color: #000000;
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -115,7 +118,12 @@ with st.container():
     with col1:
         search_qs = st.text_input("Search by title or author(s)",placeholder="Enter title or author")
     with col2:
-        selected_status = st.selectbox("Filter by status",['Published','All','Hidden','Draft'])
+        selected_status = st.radio(
+            "Filter by status",
+            key="visibility",
+            horizontal=True,
+            options=['Published','All','Hidden','Draft'],
+        )
 
     display_cards(search_qs,selected_status)
 
