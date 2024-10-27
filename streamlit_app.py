@@ -54,7 +54,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-def display_cards(search_qs=''):
+def display_cards(search_qs='',selected_status='All'):
     print(f"displaying qs cards...with optional search term '{search_qs}'")
 
     with open('qs.csv') as csvfile:
@@ -74,7 +74,7 @@ def display_cards(search_qs=''):
             qs_categories = row[5]
             qs_status = row[6]
 
-            if (search_qs == '') or (search_qs in qs_title or search_qs in qs_authors):
+            if ((search_qs == '') or (search_qs in qs_title or search_qs in qs_authors)) and (qs_status.lower() == selected_status.lower() or selected_status == 'All'):
                 with p_container:
                     col = col1 if col_index == 0 else col2 if col_index == 1 else col3 
 
@@ -111,8 +111,13 @@ with st.container():
     st.caption(f"App developed by [Dash](https://www.linkedin.com/in/dash-desai/)")
     st.markdown("___")
 
-    search_qs = st.text_input("Search by title or author(s)",placeholder="Enter title or author")
-    display_cards(search_qs)
+    col1, col2 = st.columns(2, gap='small')
+    with col1:
+        search_qs = st.text_input("Search by title or author(s)",placeholder="Enter title or author")
+    with col2:
+        selected_status = st.selectbox("Filter by status",['Published','All','Hidden','Draft'])
+
+    display_cards(search_qs,selected_status)
 
     st.markdown("___")
     st.caption(f"App developed by [Dash](https://www.linkedin.com/in/dash-desai/)")
