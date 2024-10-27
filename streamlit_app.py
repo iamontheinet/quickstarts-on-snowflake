@@ -29,6 +29,10 @@ st.markdown("""
             color: #ffffff !important;
             text-decoration: none;
         }
+        a.final {
+            color: #ffffff !important;
+            text-decoration: none;
+        }
         a.hidden {
             color: red !important;
             text-decoration: none;
@@ -104,7 +108,10 @@ with st.container():
                 <a href='https://signup.snowflake.com/?utm_cta=quickstarts_' target='_blank'>Snowflake Free Trial</a>
             """,unsafe_allow_html=True)
 
-    search_qs = st.text_input("Search by title or author(s)")
+    st.caption(f"App developed by [Dash](https://www.linkedin.com/in/dash-desai/)")
+    st.markdown("___")
+
+    search_qs = st.text_input("Search by title or author(s)",placeholder="Enter title or author")
     display_cards(search_qs)
 
     st.markdown("___")
