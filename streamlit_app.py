@@ -25,9 +25,18 @@ st.markdown("""
             font-size: 25px;
             color: #ffffff;
         }
-        a {
+        a.published {
             color: #ffffff !important;
             text-decoration: none;
+        }
+        a.hidden {
+            color: red !important;
+            text-decoration: none;
+        }
+        a.draft {
+            color: #ffffff !important;
+            text-decoration: none;
+            font-style: italic;
         }
         p {
             color: rgb(129, 164, 182);
@@ -65,7 +74,7 @@ def display_cards(search_qs=''):
                 with p_container:
                     col = col1 if col_index == 0 else col2 if col_index == 1 else col3 
 
-                    qs_title_link = f"<a href='{qs_link}' target='_blank'>{qs_title}</a>"
+                    qs_title_link = f"<a class='{qs_status.lower()}' href='{qs_link}' target='_blank'>{qs_title}</a>"
                     col.markdown(f" > {qs_title_link}", unsafe_allow_html = True)
                     col.write(f"Author(s): {qs_authors}")
 
