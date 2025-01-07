@@ -1,6 +1,7 @@
 # Import the necessary libraries
 import streamlit as st
 import csv
+import re
 
 # Setup web page
 st.set_page_config(
@@ -58,7 +59,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 def display_cards(search_qs='',selected_status='All'):
-    print(f"displaying qs cards...with optional search term '{search_qs}'")
+    print(f"displaying qs cards...with optional before search term '{search_qs}'")
+    search_qs = re.sub('[^0-9a-zA-Z]+', ' ', search_qs)
+    print(f"displaying qs cards...with optional after search term '{search_qs}'")
 
     with open('qs.csv') as csvfile:
         csvreader = csv.reader(csvfile)
