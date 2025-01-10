@@ -64,7 +64,7 @@ def display_cards(search_qs='',selected_status='All'):
     search_qs = search_qs.lower()
     # print(f"displaying qs cards...with optional after search term '{search_qs}'")
 
-    with open('qs_test.csv') as csvfile:
+    with open('qs.csv') as csvfile:
         csvreader = csv.reader(csvfile)
         
         col1, col2, col3 = st.columns(3, gap='small')
