@@ -19,7 +19,7 @@ st.markdown("""
             padding: 0px 0px 0px 1.2em;
             font-size: 20px;
             border-left: 5px solid rgb(230, 234, 241);
-            # background-color: rgb(129, 164, 182);
+            # background-color: #249edc;
             height: 125px;
         }
         blockquote p {
@@ -64,7 +64,7 @@ def display_cards(search_qs='',selected_status='All'):
     search_qs = search_qs.lower()
     # print(f"displaying qs cards...with optional after search term '{search_qs}'")
 
-    with open('qs.csv') as csvfile:
+    with open('qs_test.csv') as csvfile:
         csvreader = csv.reader(csvfile)
         
         col1, col2, col3 = st.columns(3, gap='small')
@@ -80,6 +80,7 @@ def display_cards(search_qs='',selected_status='All'):
             qs_summary = row[4]
             qs_categories = row[5]
             qs_status = row[6]
+            qs_md_last_updated = row[7]
 
             if ((search_qs == '') or (search_qs in qs_title.lower() or search_qs in qs_authors.lower())) and (qs_status.lower() == selected_status.lower() or selected_status == 'All'):
                 with p_container:
@@ -88,10 +89,12 @@ def display_cards(search_qs='',selected_status='All'):
                     qs_title_link = f"<a class='{qs_status.lower()}' href='{qs_link}' target='_blank'>{qs_title}</a>"
                     col.markdown(f" > {qs_title_link}", unsafe_allow_html = True)
                     col.write(f"Author(s): {qs_authors}")
+                    col.write(f"Last updated: {qs_md_last_updated}")
 
                     with col.expander(label='Summary'):
                         st.write(qs_summary)
                         st.markdown("___")
+                        st.write(f"Id: {qs_id}")
                         st.write(f"Categories: {qs_categories}")
                         st.write(f"Status: {qs_status}")
                     
