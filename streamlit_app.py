@@ -59,9 +59,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 def display_cards(search_qs='',selected_status='All'):
-    print(f"displaying qs cards...with optional before search term '{search_qs}'")
+    # print(f"displaying qs cards...with optional before search term '{search_qs}'")
     search_qs = re.sub('[^0-9a-zA-Z]+', ' ', search_qs)
-    print(f"displaying qs cards...with optional after search term '{search_qs}'")
+    search_qs = search_qs.lower()
+    # print(f"displaying qs cards...with optional after search term '{search_qs}'")
 
     with open('qs.csv') as csvfile:
         csvreader = csv.reader(csvfile)
@@ -80,7 +81,7 @@ def display_cards(search_qs='',selected_status='All'):
             qs_categories = row[5]
             qs_status = row[6]
 
-            if ((search_qs == '') or (search_qs in qs_title or search_qs in qs_authors)) and (qs_status.lower() == selected_status.lower() or selected_status == 'All'):
+            if ((search_qs == '') or (search_qs in qs_title.lower() or search_qs in qs_authors.lower())) and (qs_status.lower() == selected_status.lower() or selected_status == 'All'):
                 with p_container:
                     col = col1 if col_index == 0 else col2 if col_index == 1 else col3 
 
@@ -105,13 +106,13 @@ def display_cards(search_qs='',selected_status='All'):
     print("done displaying qs cards!")
 
 with st.container():
-    st.header(f"Getting Started with Snowflake")
+    st.header(f"QuickStart Guides on Snowflake")
     st.write(f"""
-                <a href='https://github.com/Snowflake-Labs/sfquickstarts' target='_blank'>Snowflake QuickStarts on GitHub</a>
+                <a href='https://quickstarts.snowflake.com.' target='_blank'>QuickStarts official website</a> 
+                |
+                <a href='https://github.com/Snowflake-Labs/sfquickstarts' target='_blank'>QuickStarts on GitHub</a>
                 |
                 <a href='https://www.snowflake.com/virtual-hands-on-lab' target='_blank'>Virtual Hands-On Labs</a> 
-                |
-                <a href='https://signup.snowflake.com/?utm_cta=quickstarts_' target='_blank'>Snowflake Free Trial</a>
             """,unsafe_allow_html=True)
 
     st.caption(f"App developed by [Dash](https://www.linkedin.com/in/dash-desai/)")
