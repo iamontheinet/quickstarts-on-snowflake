@@ -86,10 +86,12 @@ def display_cards(search_qs='',selected_status='All'):
                 with p_container:
                     col = col1 if col_index == 0 else col2 if col_index == 1 else col3 
 
+                    col.write("<div style='border:1px solid #29b5e8'>", unsafe_allow_html = True)
                     qs_title_link = f"<a class='{qs_status.lower()}' href='{qs_link}' target='_blank'>{qs_title}</a>"
                     col.markdown(f" > {qs_title_link}", unsafe_allow_html = True)
-                    col.write(f"Author(s): {qs_authors}")
-                    col.write(f"Last updated: {qs_md_last_updated}")
+                    col.markdown(f"<h6>Author(s): {qs_authors}</h6>", unsafe_allow_html = True)
+                    col.markdown(f"<h6>Last updated: {qs_md_last_updated}</h6>", unsafe_allow_html = True)
+                    col.write("</div>", unsafe_allow_html = True)
 
                     with col.expander(label='Summary'):
                         st.write(qs_summary)
