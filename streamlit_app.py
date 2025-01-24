@@ -65,7 +65,7 @@ if DEBUG:
 else:
     DATA_FILE = 'qs.csv'
 
-def display_cards(search_qs='',selected_status='All',selected_order_by='Title',selected_order='asc'):
+def display_cards(search_qs='',selected_status='All',selected_order_by='Title',selected_order='Asc'):
     search_qs = re.sub('[^0-9a-zA-Z]+', ' ', search_qs)
     search_qs = search_qs.lower()
 
