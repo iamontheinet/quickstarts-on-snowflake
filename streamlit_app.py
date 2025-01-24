@@ -2,6 +2,7 @@
 import streamlit as st
 import csv
 import re
+from datetime import datetime
 
 # Setup web page
 st.set_page_config(
@@ -58,57 +59,78 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-def display_cards(search_qs='',selected_status='All'):
-    # print(f"displaying qs cards...with optional before search term '{search_qs}'")
+DEBUG = False
+if DEBUG:
+    DATA_FILE = 'qs_test.csv'
+else:
+    DATA_FILE = 'qs.csv'
+
+def display_cards(search_qs='',selected_status='All',selected_order_by='Title',selected_order='asc'):
     search_qs = re.sub('[^0-9a-zA-Z]+', ' ', search_qs)
     search_qs = search_qs.lower()
-    # print(f"displaying qs cards...with optional after search term '{search_qs}'")
 
-    with open('qs.csv') as csvfile:
-        csvreader = csv.reader(csvfile)
-        
-        col1, col2, col3 = st.columns(3, gap='small')
-        p_container = st.container()
-        col_index = 0
-        i = 1
+    if selected_order_by == 'Title':
+        col_idx = 1
+    elif selected_order_by == 'Author(s)':
+        col_idx = 3
+    else:
+        col_idx = 7
+    
+    with open(DATA_FILE) as csvfile:
+        data = list(csv.reader(csvfile))
+        reverse_order = selected_order == "Desc"
+        if col_idx <= 3:
+            sorted_data = sorted(data, key=lambda row: row[col_idx], reverse=reverse_order)
+        else:
+            sorted_data = sorted(data, key=lambda row: datetime.strptime(row[col_idx], "%b %d, %Y"), reverse=reverse_order)
 
-        for row in csvreader:
-            qs_id = row[0]
-            qs_title = row[1]
-            qs_link = row[2]
-            qs_authors = row[3]
-            qs_summary = row[4]
-            qs_categories = row[5]
-            qs_status = row[6]
-            qs_md_last_updated = row[7]
+    if DEBUG:
+        print(f"\nUser params >> Search: {search_qs} | Status: {selected_status} | Order by: {selected_order_by} | Order: {selected_order}\n")
+        print(sorted_data)
+    
+    col1, col2, col3 = st.columns(3, gap='small')
+    p_container = st.container()
+    col_index = 0
+    i = 1
 
-            if ((search_qs == '') or (search_qs in qs_title.lower() or search_qs in qs_authors.lower())) and (qs_status.lower() == selected_status.lower() or selected_status == 'All'):
-                with p_container:
-                    col = col1 if col_index == 0 else col2 if col_index == 1 else col3 
+    for qs in sorted_data:
+        qs_id = qs[0]
+        qs_title = qs[1]
+        qs_link = qs[2]
+        qs_authors = qs[3]
+        qs_summary = qs[4]
+        qs_categories = qs[5]
+        qs_status = qs[6]
+        qs_md_last_updated = qs[7]
 
-                    col.write("<div style='border:1px solid #29b5e8'>", unsafe_allow_html = True)
-                    qs_title_link = f"<a class='{qs_status.lower()}' href='{qs_link}' target='_blank'>{qs_title}</a>"
-                    col.markdown(f" > {qs_title_link}", unsafe_allow_html = True)
-                    col.markdown(f"<h6>Author(s): {qs_authors}</h6>", unsafe_allow_html = True)
-                    col.markdown(f"<h6>Last updated: {qs_md_last_updated}</h6>", unsafe_allow_html = True)
-                    col.write("</div>", unsafe_allow_html = True)
+        if ((search_qs == '') or (search_qs in qs_title.lower() or search_qs in qs_authors.lower())) and (qs_status.lower() == selected_status.lower() or selected_status == 'All'):
+            with p_container:
+                col = col1 if col_index == 0 else col2 if col_index == 1 else col3 
 
-                    with col.expander(label='Summary'):
-                        st.write(qs_summary)
-                        st.markdown("___")
-                        st.write(f"Id: {qs_id}")
-                        st.write(f"Categories: {qs_categories}")
-                        st.write(f"Status: {qs_status}")
-                    
-                if (i % 3) == 0:
-                    col1, col2, col3 = st.columns(3, gap='small')
-                    p_container = st.container()
-                    col_index = 0
-                else:
-                    col_index += 1
-                i += 1
+                col.write("<div style='border:1px solid #29b5e8'>", unsafe_allow_html = True)
+                qs_title_link = f"<a class='{qs_status.lower()}' href='{qs_link}' target='_blank'>{qs_title}</a>"
+                col.markdown(f" > {qs_title_link}", unsafe_allow_html = True)
+                col.markdown(f"<h6>Author(s): {qs_authors}</h6>", unsafe_allow_html = True)
+                col.markdown(f"<h6>Last updated: {qs_md_last_updated}</h6>", unsafe_allow_html = True)
+                col.write("</div>", unsafe_allow_html = True)
 
-    print("done displaying qs cards!")
+                with col.expander(label='Summary'):
+                    st.write(qs_summary)
+                    st.markdown("___")
+                    st.write(f"Id: {qs_id}")
+                    st.write(f"Categories: {qs_categories}")
+                    st.write(f"Status: {qs_status}")
+                
+            if (i % 3) == 0:
+                col1, col2, col3 = st.columns(3, gap='small')
+                p_container = st.container()
+                col_index = 0
+            else:
+                col_index += 1
+            i += 1
+
+    if DEBUG:
+        print("done displaying qs cards!")
 
 with st.container():
     st.header(f"QuickStart Guides on Snowflake")
@@ -123,18 +145,32 @@ with st.container():
     st.caption(f"App developed by [Dash](https://www.linkedin.com/in/dash-desai/)")
     st.markdown("___")
 
-    col1, col2 = st.columns(2, gap='small')
+    col1, col2, col3, col4 = st.columns([3.2,1.7,1.5,.8])
     with col1:
         search_qs = st.text_input("Search by title or author(s)",placeholder="Enter title or author")
     with col2:
         selected_status = st.radio(
             "Filter by status",
-            key="visibility",
+            key="status_visibility",
             horizontal=True,
             options=['Published','All','Hidden','Draft'],
         )
+    with col3:
+        selected_order_by = st.radio(
+            "Sort by",
+            key="order_by_visibility",
+            horizontal=True,
+            options=['Title','Author(s)','Last updated'],
+        )
+    with col4:
+        selected_order = st.radio(
+            "Sort order",
+            key="order_visibility",
+            horizontal=True,
+            options=['Asc','Desc'],
+        )
 
-    display_cards(search_qs,selected_status)
+    display_cards(search_qs,selected_status,selected_order_by,selected_order)
 
     st.markdown("___")
     st.caption(f"App developed by [Dash](https://www.linkedin.com/in/dash-desai/)")
