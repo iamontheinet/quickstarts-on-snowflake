@@ -135,11 +135,13 @@ def display_cards(search_qs='',selected_status='All',selected_order_by='Title',s
 with st.container():
     st.header(f"QuickStart Guides on Snowflake")
     st.write(f"""
-                <a href='https://quickstarts.snowflake.com.' target='_blank'>QuickStarts official website</a> 
+                <a href="https://www.snowflake.com/en/developers/solutions-center/?utm_cta=quickstarts_" target="_blank">Solutions Center</a>
                 |
-                <a href='https://github.com/Snowflake-Labs/sfquickstarts' target='_blank'>QuickStarts on GitHub</a>
+                <a href='https://quickstarts.snowflake.com/?utm_cta=quickstarts_' target='_blank'>QuickStarts official website</a> 
                 |
-                <a href='https://www.snowflake.com/virtual-hands-on-lab' target='_blank'>Virtual Hands-On Labs</a> 
+                <a href='https://github.com/Snowflake-Labs/sfquickstarts/?utm_cta=quickstarts_' target='_blank'>QuickStarts on GitHub</a>
+                |
+                <a href='https://www.snowflake.com/virtual-hands-on-lab/?utm_cta=quickstarts_' target='_blank'>Virtual Hands-On Labs</a> 
             """,unsafe_allow_html=True)
 
     st.caption(f"App developed by [Dash](https://www.linkedin.com/in/dash-desai/)")
