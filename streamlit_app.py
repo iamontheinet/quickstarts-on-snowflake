@@ -65,7 +65,7 @@ if DEBUG:
 else:
     DATA_FILE = 'qs.csv'
 
-def display_cards(search_qs='',selected_status='All',selected_order_by='Title',selected_order='Asc'):
+def display_cards(search_qs='',selected_status='All',selected_order_by='Last updated',selected_order='Desc'):
     search_qs = re.sub('[^0-9a-zA-Z]+', ' ', search_qs)
     search_qs = search_qs.lower()
 
@@ -163,6 +163,7 @@ with st.container():
             key="order_by_visibility",
             horizontal=True,
             options=['Title','Author(s)','Last updated'],
+            index=2
         )
     with col4:
         selected_order = st.radio(
@@ -170,6 +171,7 @@ with st.container():
             key="order_visibility",
             horizontal=True,
             options=['Asc','Desc'],
+            index=1
         )
 
     display_cards(search_qs,selected_status,selected_order_by,selected_order)
