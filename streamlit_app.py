@@ -44,6 +44,10 @@ st.markdown("""
             text-decoration: none;
             font-style: italic;
         }
+        a.updated {
+            # color: #000000 !important;
+            text-decoration: none;
+        }
         p {
             color: rgb(129, 164, 182);
         }
@@ -59,7 +63,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-DEBUG = False
+DEBUG = True
 if DEBUG:
     DATA_FILE = 'qs_test.csv'
 else:
@@ -102,6 +106,7 @@ def display_cards(search_qs='',selected_status='All',selected_order_by='Last upd
         qs_categories = qs[5]
         qs_status = qs[6]
         qs_md_last_updated = qs[7]
+        qs_md_last_updated_by = qs[8]
 
         if ((search_qs == '') or (search_qs in qs_title.lower() or search_qs in qs_authors.lower())) and (qs_status.lower() == selected_status.lower() or selected_status == 'All'):
             with p_container:
@@ -111,7 +116,7 @@ def display_cards(search_qs='',selected_status='All',selected_order_by='Last upd
                 qs_title_link = f"<a class='{qs_status.lower()}' href='{qs_link}' target='_blank'>{qs_title}</a>"
                 col.markdown(f" > {qs_title_link}", unsafe_allow_html = True)
                 col.markdown(f"<h6>Author(s): {qs_authors}</h6>", unsafe_allow_html = True)
-                col.markdown(f"<h6>Last updated: {qs_md_last_updated}</h6>", unsafe_allow_html = True)
+                col.markdown(f"<h6>Last updated: {qs_md_last_updated} | Updated by: <a class='updated' href='https://github.com/{qs_md_last_updated_by}'>{qs_md_last_updated_by}</a> </h6>", unsafe_allow_html = True)
                 col.write("</div>", unsafe_allow_html = True)
 
                 with col.expander(label='Summary'):
