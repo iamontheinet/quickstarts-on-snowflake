@@ -152,7 +152,7 @@ with st.container():
     st.caption(f"App developed by [Dash](https://www.linkedin.com/in/dash-desai/)")
     st.markdown("___")
 
-    col1, col2, col3, col4 = st.columns([3.2,1.7,1.5,.8])
+    col1, col2, col3, col4 = st.columns([3.2,1.5,1.7,.8])
     with col1:
         search_qs = st.text_input("Search by title or author(s)",placeholder="Enter title or author")
     with col2:
@@ -160,7 +160,8 @@ with st.container():
             "Filter by status",
             key="status_visibility",
             horizontal=True,
-            options=['Published','All','Hidden','Draft'],
+            options=['All','Published','Hidden'],
+            index=1
         )
     with col3:
         selected_order_by = st.radio(
