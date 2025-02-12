@@ -86,7 +86,7 @@ def display_cards(search_qs='',selected_status='All',selected_order_by='Last upd
         if col_idx <= 3:
             sorted_data = sorted(data, key=lambda row: row[col_idx], reverse=reverse_order)
         else:
-            sorted_data = sorted(data, key=lambda row: datetime.strptime(row[col_idx], "%b %d, %Y"), reverse=reverse_order)
+            sorted_data = sorted(data, key=lambda row: datetime.strptime(row[col_idx], "%b %d, %Y") if row[col_idx] != 'N/A' else row[1], reverse=reverse_order)
 
     if DEBUG:
         print(f"\nUser params >> Search: {search_qs} | Status: {selected_status} | Order by: {selected_order_by} | Order: {selected_order}\n")
