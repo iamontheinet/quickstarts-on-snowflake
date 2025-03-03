@@ -78,7 +78,7 @@ def display_cards(search_qs='',selected_status='All',selected_order_by='Last upd
     elif selected_order_by == 'Author(s)':
         col_idx = 3
     else:
-        col_idx = 7
+        col_idx = 8
     
     with open(DATA_FILE) as csvfile:
         data = list(csv.reader(csvfile))
@@ -91,9 +91,9 @@ def display_cards(search_qs='',selected_status='All',selected_order_by='Last upd
             except:
                 sorted_data = sorted(data, key=lambda row: row[col_idx], reverse=reverse_order)
                 
-    if DEBUG:
+    if True:
         print(f"\nUser params >> Search: {search_qs} | Status: {selected_status} | Order by: {selected_order_by} | Order: {selected_order}\n")
-        print(sorted_data)
+        print(sorted_data[:10])
     
     col1, col2, col3 = st.columns(3, gap='small')
     p_container = st.container()
