@@ -63,7 +63,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-DEBUG = True
+DEBUG = False
 if DEBUG:
     DATA_FILE = 'qs_test.csv'
 else:
