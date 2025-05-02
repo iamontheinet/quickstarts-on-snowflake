@@ -69,14 +69,14 @@ if DEBUG:
 else:
     DATA_FILE = 'qs.csv'
 
-def display_cards(search_qs='',selected_status='All',selected_order_by='Last updated',selected_order='Desc'):
+def display_cards(search_qs='',selected_status='All',selected_order_by='Created date',selected_order='Desc'):
     search_qs = re.sub('[^0-9a-zA-Z]+', ' ', search_qs)
     search_qs = search_qs.lower()
 
     if selected_order_by == 'Title':
         col_idx = 1
-    elif selected_order_by == 'Author(s)':
-        col_idx = 3
+    elif selected_order_by == 'Created date':
+        col_idx = 7
     else:
         col_idx = 8
     
@@ -93,7 +93,7 @@ def display_cards(search_qs='',selected_status='All',selected_order_by='Last upd
         st.caption(f"Number of matching QS guides: {len(data)}")
 
         reverse_order = selected_order == "Desc"
-        if col_idx <= 3:
+        if col_idx == 1:
             sorted_data = sorted(data, key=lambda row: row[col_idx], reverse=reverse_order)
         else:
             try:
@@ -129,8 +129,8 @@ def display_cards(search_qs='',selected_status='All',selected_order_by='Last upd
             qs_title_link = f"<a class='{qs_status.lower()}' href='{qs_link}' target='_blank'>{qs_title}</a>"
             col.markdown(f" > {qs_title_link}", unsafe_allow_html = True)
             col.markdown(f"<h6>Author(s): {qs_authors}</h6>", unsafe_allow_html = True)
-            col.markdown(f"<h6>Created on: {qs_md_first_updated}</h6>", unsafe_allow_html = True)
-            col.markdown(f"<h6>Last updated on: {qs_md_last_updated} | Last updated by: <a class='updated' href='https://github.com/{qs_md_last_updated_by}'>{qs_md_last_updated_by}</a> </h6>", unsafe_allow_html = True)
+            col.markdown(f"<h6>Created date: {qs_md_first_updated}</h6>", unsafe_allow_html = True)
+            col.markdown(f"<h6>Last updated date: {qs_md_last_updated} | Last updated by: <a class='updated' href='https://github.com/{qs_md_last_updated_by}'>{qs_md_last_updated_by}</a> </h6>", unsafe_allow_html = True)
             col.write("</div>", unsafe_allow_html = True)
 
             with col.expander(label='Summary'):
@@ -166,7 +166,7 @@ with st.container():
     st.caption(f"App developed by [Dash](https://www.linkedin.com/in/dash-desai/)")
     st.markdown("___")
 
-    col1, col2, col3, col4 = st.columns([3.2,1.5,1.7,.8])
+    col1, col2, col3, col4 = st.columns([3.2,1.5,1.8,.8])
     with col1:
         search_qs = st.text_input("Search by title or author(s)",placeholder="Enter title or author")
     with col2:
@@ -182,8 +182,8 @@ with st.container():
             "Sort by",
             key="order_by_visibility",
             horizontal=True,
-            options=['Title','Author(s)','Last updated'],
-            index=2
+            options=['Title','Created date','Last updated date'],
+            index=1
         )
     with col4:
         selected_order = st.radio(
